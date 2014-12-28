@@ -76,9 +76,9 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.1.41552, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.4.0.16114, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>_Lib\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -417,6 +417,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Apps-utilities-terminal.ico" />
+    <Content Include="_Lib\WeifenLuo.WinFormsUI.Docking.dll" />
     <None Include="Resources\find.png" />
     <Content Include="_Lib\log4net.dll" />
     <Content Include="Resources\accept-gray.png" />
