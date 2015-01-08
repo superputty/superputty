@@ -31,11 +31,6 @@ namespace SuperPutty.Gui
 
         public ItemNameValidationHandler ItemNameValidator { get; set; }
 
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-        }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -50,11 +45,13 @@ namespace SuperPutty.Gui
                 {
                     this.errorProvider.SetError(this.txtItemName, error ?? "Invalid Name");
                     this.btnOK.Enabled = false;
+                    this.DialogResult = DialogResult.Abort;
                 }
                 else
                 {
                     this.errorProvider.SetError(this.txtItemName, String.Empty);
                     this.btnOK.Enabled = true;
+                    this.DialogResult = DialogResult.OK;
                 }
             }
 
