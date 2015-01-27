@@ -63,9 +63,9 @@ namespace SuperPutty
 
             InitializeComponent();
 
-            this.Text = session.SessionName;
-            this.TabText = session.SessionName;
-            this.TextOverride = session.SessionName;
+            // Show session name, including the folder path
+            // in the tab
+            this.Text = this.TabText = this.TextOverride = session.SessionId;
 
             CreatePanel();
             AdjustMenu();
