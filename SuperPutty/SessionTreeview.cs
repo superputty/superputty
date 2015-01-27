@@ -63,8 +63,8 @@ namespace SuperPutty
         {
             m_DockPanel = dockPanel;
             InitializeComponent();
-            this.treeView1.TreeViewNodeSorter = this;
-            this.treeView1.ImageList = SuperPuTTY.Images;
+            this.treeViewSessions.TreeViewNodeSorter = this;
+            this.treeViewSessions.ImageList = SuperPuTTY.Images;
             this.ApplySettings();
 
             // populate sessions in the treeview from the registry
@@ -79,7 +79,7 @@ namespace SuperPutty
             if (SuperPuTTY.Settings.ExpandSessionsTreeOnStartup)
             {
                 nodeRoot.ExpandAll();
-                this.treeView1.SelectedNode = nodeRoot;
+                this.treeViewSessions.SelectedNode = nodeRoot;
             }
             else
             {
@@ -107,8 +107,8 @@ namespace SuperPutty
 
         void ApplySettings()
         {
-            this.treeView1.ShowLines = SuperPuTTY.Settings.SessionsTreeShowLines;
-            this.treeView1.Font = SuperPuTTY.Settings.SessionsTreeFont;
+            this.treeViewSessions.ShowLines = SuperPuTTY.Settings.SessionsTreeShowLines;
+            this.treeViewSessions.Font = SuperPuTTY.Settings.SessionsTreeFont;
             this.panelSearch.Visible = SuperPuTTY.Settings.SessionsShowSearch;
         }
 
@@ -124,9 +124,9 @@ namespace SuperPutty
         /// </summary>
         void LoadSessions()
         {
-            treeView1.Nodes.Clear();
+            treeViewSessions.Nodes.Clear();
 
-            this.nodeRoot = treeView1.Nodes.Add("root", "PuTTY Sessions", ImageKeyFolder, ImageKeyFolder);
+            this.nodeRoot = treeViewSessions.Nodes.Add("root", "PuTTY Sessions", ImageKeyFolder, ImageKeyFolder);
             this.nodeRoot.ContextMenuStrip = this.contextMenuStripFolder;
 
             foreach (SessionData session in SuperPuTTY.GetAllSessions())
@@ -185,9 +185,9 @@ namespace SuperPutty
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             // e is null if this method is called from connectToolStripMenuItem_Click
-            TreeNode node = (e != null) ? e.Node : treeView1.SelectedNode;
+            TreeNode node = (e != null) ? e.Node : treeViewSessions.SelectedNode;
 
-            if (IsSessionNode(node) && node == treeView1.SelectedNode)
+            if (IsSessionNode(node) && node == treeViewSessions.SelectedNode)
             {
                 SessionData sessionData = (SessionData)node.Tag;
                 SuperPuTTY.OpenPuttySession(sessionData);
@@ -210,34 +210,34 @@ namespace SuperPutty
             if (sender is ToolStripMenuItem)
             {
                 ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
-                bool isFolderNode = IsFolderNode(treeView1.SelectedNode);
+                bool isFolderNode = IsFolderNode(treeViewSessions.SelectedNode);
                 if (menuItem.Text.ToLower().Equals("new") || isFolderNode)
                 {
                     session = new SessionData();
-                    nodeRef = isFolderNode ? treeView1.SelectedNode : treeView1.SelectedNode.Parent;
+                    nodeRef = isFolderNode ? treeViewSessions.SelectedNode : treeViewSessions.SelectedNode.Parent;
                     title = "Create New Session";
                 }
                 else if (menuItem == this.createLikeToolStripMenuItem)
                 {
                     // copy as
-                    session = (SessionData) ((SessionData) treeView1.SelectedNode.Tag).Clone();
+                    session = (SessionData) ((SessionData) treeViewSessions.SelectedNode.Tag).Clone();
                     session.SessionId = SuperPuTTY.MakeUniqueSessionId(session.SessionId);
                     session.SessionName = SessionData.GetSessionNameFromId(session.SessionId);
-                    nodeRef = treeView1.SelectedNode.Parent;
+                    nodeRef = treeViewSessions.SelectedNode.Parent;
                     title = "Create New Session Like " + session.OldName;
                 }
                 else
                 {
                     // edit, session node selected
-                    session = (SessionData)treeView1.SelectedNode.Tag;
-                    node = treeView1.SelectedNode;
+                    session = (SessionData)treeViewSessions.SelectedNode.Tag;
+                    node = treeViewSessions.SelectedNode;
                     nodeRef = node.Parent;
                     isEdit = true;
                     title = "Edit Session: " + session.SessionName;
                 }
             }
 
-            dlgEditSession form = new dlgEditSession(session, this.treeView1.ImageList);
+            dlgEditSession form = new dlgEditSession(session, this.treeViewSessions.ImageList);
             form.Text = title;
             form.SessionNameValidator += delegate(string txt, out string error)
             {
@@ -276,7 +276,7 @@ namespace SuperPutty
                     TreeNode nodeNew = nodeRef.Nodes[session.SessionName];
                     if (nodeNew != null)
                     {
-                        this.treeView1.SelectedNode = nodeNew;
+                        this.treeViewSessions.SelectedNode = nodeNew;
                     }
                 }
                 else
@@ -301,7 +301,7 @@ namespace SuperPutty
 
                     }
                     ResortNodes();
-                    this.treeView1.SelectedNode = node;
+                    this.treeViewSessions.SelectedNode = node;
                 }
 
                 //treeView1.ExpandAll();
@@ -320,7 +320,7 @@ namespace SuperPutty
         {
             if (e.Button == MouseButtons.Right)
             {
-                treeView1.SelectedNode = treeView1.GetNodeAt(e.X, e.Y);
+                treeViewSessions.SelectedNode = treeViewSessions.GetNodeAt(e.X, e.Y);
             }          
         }
 
@@ -331,11 +331,11 @@ namespace SuperPutty
         /// <param name="e"></param>
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SessionData session = (SessionData)treeView1.SelectedNode.Tag;
+            SessionData session = (SessionData)treeViewSessions.SelectedNode.Tag;
             if (MessageBox.Show("Are you sure you want to delete " + session.SessionName + "?", "Delete Session?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 //session.RegistryRemove(session.SessionName);
-                treeView1.SelectedNode.Remove();
+                treeViewSessions.SelectedNode.Remove();
                 SuperPuTTY.RemoveSession(session.SessionId);
                 SuperPuTTY.SaveSessions();
                 //m_SessionsById.Remove(session.SessionId);
@@ -350,7 +350,7 @@ namespace SuperPutty
         /// <param name="e"></param>
         private void fileBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SessionData session = (SessionData)treeView1.SelectedNode.Tag;
+            SessionData session = (SessionData)treeViewSessions.SelectedNode.Tag;
             SuperPuTTY.OpenScpSession(session);
         }
 
@@ -371,7 +371,7 @@ namespace SuperPutty
         /// <param name="e"></param>
         private void connectExternalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode node = this.treeView1.SelectedNode;
+            TreeNode node = this.treeViewSessions.SelectedNode;
             if (IsSessionNode(node))
             {
                 SessionData sessionData = (SessionData)node.Tag;
@@ -382,7 +382,7 @@ namespace SuperPutty
 
         private void connectInNewSuperPuTTYToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode node = this.treeView1.SelectedNode;
+            TreeNode node = this.treeViewSessions.SelectedNode;
             if (IsSessionNode(node))
             {
                 SuperPuTTY.LoadSessionInNewInstance(((SessionData)node.Tag).SessionId);
@@ -391,7 +391,7 @@ namespace SuperPutty
 
         private void newFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode node = this.treeView1.SelectedNode;
+            TreeNode node = this.treeViewSessions.SelectedNode;
             if (node != null)
             {
                 dlgRenameItem dialog = new dlgRenameItem();
@@ -425,7 +425,7 @@ namespace SuperPutty
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode node = this.treeView1.SelectedNode;
+            TreeNode node = this.treeViewSessions.SelectedNode;
             if (node != null)
             {
                 dlgRenameItem dialog = new dlgRenameItem();
@@ -458,7 +458,7 @@ namespace SuperPutty
 
         private void removeFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode node = this.treeView1.SelectedNode;
+            TreeNode node = this.treeViewSessions.SelectedNode;
             if (node != null)
             {
                 if (node.Nodes.Count > 0)
@@ -489,7 +489,7 @@ namespace SuperPutty
 
         private void connectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode node = this.treeView1.SelectedNode;
+            TreeNode node = this.treeViewSessions.SelectedNode;
             if (node != null && !IsSessionNode(node))
             {
                 List<SessionData> sessions = new List<SessionData>();
@@ -516,7 +516,7 @@ namespace SuperPutty
 
         private void contextMenuStripFolder_Opening(object sender, CancelEventArgs e)
         {
-            bool isRootNode = this.treeView1.SelectedNode != this.nodeRoot;
+            bool isRootNode = this.treeViewSessions.SelectedNode != this.nodeRoot;
             this.renameToolStripMenuItem.Enabled = isRootNode;
             // TODO: handle removing folder and nodes in it recursively
             this.removeFolderToolStripMenuItem.Enabled = isRootNode;// && this.treeView1.SelectedNode.Nodes.Count == 0;
@@ -652,14 +652,14 @@ namespace SuperPutty
 
         void ResortNodes()
         {
-            this.treeView1.TreeViewNodeSorter = null;
-            this.treeView1.TreeViewNodeSorter = this;
+            this.treeViewSessions.TreeViewNodeSorter = null;
+            this.treeViewSessions.TreeViewNodeSorter = this;
         }
 
 
         private void expandAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-              TreeNode node = this.treeView1.SelectedNode;
+              TreeNode node = this.treeViewSessions.SelectedNode;
               if (node != null)
               {
                   node.ExpandAll();
@@ -668,7 +668,7 @@ namespace SuperPutty
 
         private void collapseAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode node = this.treeView1.SelectedNode;
+            TreeNode node = this.treeViewSessions.SelectedNode;
             if (node != null)
             {
                 node.Collapse();
@@ -731,7 +731,7 @@ namespace SuperPutty
             //if (node != null && IsSessionNode(node))
             if (node != null && tree.Nodes[0] != node)
             {
-                this.treeView1.DoDragDrop(node, DragDropEffects.Copy);
+                this.treeViewSessions.DoDragDrop(node, DragDropEffects.Copy);
             }
         }
 
@@ -848,7 +848,7 @@ namespace SuperPutty
             bool valid = false;
             if (!string.IsNullOrEmpty(imageKey))
             {
-                valid = this.treeView1.ImageList.Images.ContainsKey(imageKey);
+                valid = this.treeViewSessions.ImageList.Images.ContainsKey(imageKey);
                 if (!valid)
                 {
                     Log.WarnFormat("Missing icon, {0}", imageKey);
@@ -911,7 +911,7 @@ namespace SuperPutty
             }
             else
             {
-                this.treeView1.ExpandAll();
+                this.treeViewSessions.ExpandAll();
             }
         }
 
@@ -963,7 +963,7 @@ namespace SuperPutty
         #region Key Handling
         private void treeView1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)13 && IsSessionNode(this.treeView1.SelectedNode))
+            if (e.KeyChar == (char)13 && IsSessionNode(this.treeViewSessions.SelectedNode))
             {
                 if (Control.ModifierKeys == Keys.None)
                 {

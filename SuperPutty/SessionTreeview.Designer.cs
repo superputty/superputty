@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SessionTreeview));
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.treeViewSessions = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStripAddTreeItem = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,28 +65,28 @@
             this.panelSearch.SuspendLayout();
             this.SuspendLayout();
             // 
-            // treeView1
+            // treeViewSessions
             // 
-            this.treeView1.AllowDrop = true;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeView1.ImageIndex = 0;
-            this.treeView1.ImageList = this.imageList1;
-            this.treeView1.Location = new System.Drawing.Point(0, 25);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(5);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.ShowLines = false;
-            this.treeView1.ShowNodeToolTips = true;
-            this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(430, 478);
-            this.treeView1.TabIndex = 0;
-            this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
-            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
-            this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
-            this.treeView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView1_DragDrop);
-            this.treeView1.DragOver += new System.Windows.Forms.DragEventHandler(this.treeView1_DragOver);
-            this.treeView1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.treeView1_KeyPress);
+            this.treeViewSessions.AllowDrop = true;
+            this.treeViewSessions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewSessions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewSessions.ImageIndex = 0;
+            this.treeViewSessions.ImageList = this.imageList1;
+            this.treeViewSessions.Location = new System.Drawing.Point(0, 25);
+            this.treeViewSessions.Margin = new System.Windows.Forms.Padding(5);
+            this.treeViewSessions.Name = "treeViewSessions";
+            this.treeViewSessions.SelectedImageIndex = 0;
+            this.treeViewSessions.ShowLines = false;
+            this.treeViewSessions.ShowNodeToolTips = true;
+            this.treeViewSessions.ShowRootLines = false;
+            this.treeViewSessions.Size = new System.Drawing.Size(430, 478);
+            this.treeViewSessions.TabIndex = 0;
+            this.treeViewSessions.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
+            this.treeViewSessions.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+            this.treeViewSessions.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
+            this.treeViewSessions.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView1_DragDrop);
+            this.treeViewSessions.DragOver += new System.Windows.Forms.DragEventHandler(this.treeView1_DragOver);
+            this.treeViewSessions.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.treeView1_KeyPress);
             // 
             // imageList1
             // 
@@ -330,7 +330,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(430, 503);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.treeViewSessions);
             this.Controls.Add(this.panelSearch);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -349,7 +349,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView treeViewSessions;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripAddTreeItem;
         private System.Windows.Forms.ToolStripMenuItem newSessionToolStripMenuItem;
         private System.Windows.Forms.ImageList imageList1;
